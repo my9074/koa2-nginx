@@ -1,6 +1,8 @@
-# koa-nginx
+# koa2-nginx
 
 [![npm version](https://badge.fury.io/js/koa-nginx.svg)](https://badge.fury.io/js/koa-nginx) [![Build Status](https://www.travis-ci.org/wedog/koa-nginx.svg?branch=master)](https://www.travis-ci.org/wedog/koa-nginx) [![Coverage Status](https://coveralls.io/repos/github/wedog/koa-nginx/badge.svg?branch=master)](https://coveralls.io/github/wedog/koa-nginx?branch=master)
+
+Fork by [koa-nginx](https://github.com/wedog/koa-nginx)
 
 Middleware for [koa2](https://github.com/koajs/koa). Reverse proxy middleware for koa. Proxy resources on other servers, such as Java services, and other node.js applications. Based on http-proxy library.
 
@@ -13,7 +15,7 @@ node v7.x +
 First install node.js(v7.6.0 or higher). Then:
 
 ```bash
-$ npm i koa-ngnix --save
+$ npm i koa2-nginx --save
 ```
 
 # Usage
@@ -56,22 +58,6 @@ timeout for outgoing proxy requests.unrequired,the values are in millisecond,Num
 - `rewrite`
 rewrites the url redirects.unrequired,Funtion, default `path.replace(context, '')`
 
-- `handleReq`
-This event is emitted before the data is sent. It gives you a chance to alter the proxyReq request object. Applies to "web",include `proxyReq`,`req`,`res`,`options`
-```js
-const Ngnix = Proxy.proxy({
-  proxies: ...,
-  handleReq: proxyObj => {
-    { proxyReq, req, res, options } = proxyObj;
-  }
-});
-```
-
-- `handleRes`
-This event is emitted if the request to the target got a response,include `proxyRes`,`req`,`res`
-
-- `error`
-The error event is emitted if the request to the target fail,include `err`,`req`,`res`
 
 - `proxies`
 koa-ngnix important parameter,required,expect get array,Each of the internal objects is a proxy combination, and some of the internal parameters can override globally parameters of the same name.
@@ -80,6 +66,38 @@ koa-ngnix important parameter,required,expect get array,Each of the internal obj
   * `logs` unrequired，Boolean, default true
   * `rewrite` unrequired，Function
   * `proxyTimeout` unrequired，Number
+  * `event`
+    * `handleReq`
+      This event is emitted before the data is sent. It gives you a chance to alter the proxyReq request object. Applies to "web",include `proxyReq`,`req`,`res`,`options`
+    * `handleRes` 
+    This event is emitted if the request to the target got a response,include `proxyRes`,`req`,`res`
+    * `handleError`
+    The error event is emitted if the request to the target fail,include `err`,`req`,`res`
+   
+   ```js
+      const Ngnix = Proxy.proxy({
+        proxies: [
+          {
+            ...
+            event: {
+              handleReq: proxyObj => {
+                { proxyReq, req, res, options } = proxyObj;
+                proxyReq.setHeader('token', '123456')
+                console.log(proxyReq.getHeader('token'))
+              },
+              handleRes: proxyObj => {
+                { proxyRes, req, res, options } = proxyObj;
+                proxyRes.headers.token = req.headers.customToken;
+              },
+              handleError: proxyObj => {
+                console.log('this is proxy error handler')
+              }
+            }
+          }
+        ]
+      });
+      ```
+
 
 Most options based on [http-proxy](https://github.com/nodejitsu/node-http-proxy). 
 * host: the end point server

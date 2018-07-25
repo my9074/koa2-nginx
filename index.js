@@ -1,8 +1,4 @@
-/**
- * Created by ly_wu on 2017/6/21.
- */
 const HttpProxy = require('http-proxy');
-const proxyServer = HttpProxy.createProxyServer();
 const compose = require('koa-compose');
 const baseProxy = require('./utils/baseProxy');
 
@@ -12,8 +8,9 @@ class Proxy extends baseProxy {
       if (!ctx.url.startsWith(context)) {
         return next();
       }
-      const { logs, rewrite, target } = options;
 
+      const proxyServer = HttpProxy.createProxyServer();
+      const { logs, rewrite, target } = options;
       ctx.req.body = ctx.request.body || null;
       options.headers = ctx.request.headers;
       return new Promise(resolve => {
@@ -28,6 +25,11 @@ class Proxy extends baseProxy {
             ctx.req.url
           );
         }
+
+        if (options.event && typeof options.event === 'object') {
+          this.handle(proxyServer, options.event);
+        }
+
         proxyServer.web(ctx.req, ctx.res, options, e => {
           const status = {
             ECONNRESET: 502,
@@ -35,9 +37,13 @@ class Proxy extends baseProxy {
             ETIMEOUT: 504,
           }[ e.code ];
           if (status) ctx.status = status;
-          if (this.options.handleError) {
+
+          if (options.event && options.event.handleError) {
+            options.event.handleError.call(null, { e, req: ctx.req, res: ctx.res });
+          } else if (this.options.handleError) {
             this.options.handleError.call(null, { e, req: ctx.req, res: ctx.res });
           }
+
           if (logs) {
             this.options.log.error('- proxy -', ctx.status, ctx.req.method, ctx.req.url);
           }
@@ -50,7 +56,6 @@ class Proxy extends baseProxy {
     this.checkOut(options);
     const mildArr = [];
     const { proxies, rewrite, proxyTimeout } = this.options;
-    this.handle(proxyServer);
     proxies.forEach(proxy => {
       const pattern = new RegExp('^/' + proxy.context + '(/|/w+)?');
       mildArr.push(
@@ -61,6 +66,7 @@ class Proxy extends baseProxy {
           rewrite: proxy.rewrite || rewrite(pattern),
           logs: proxy.log || true,
           proxyTimeout: proxy.proxyTimeout || proxyTimeout,
+          event: proxy.event,
         })
       );
     });
