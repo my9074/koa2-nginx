@@ -20,14 +20,13 @@ class baseProxy {
       proxyTimeout: option.proxyTimeout || 30000,
       proxies: option.proxies,
       rewrite: option.rewrite ? () => option.rewrite : pattern => path => path.replace(pattern, ''),
-      handleReq: option.proxyReq,
-      handleRes: option.proxyRes,
       handleError: option.error,
     };
   }
   // handle event：proxyReq、proxyRes、error
-  handle(proxyServer) {
-    const { handleReq, handleRes, handleError } = this.options;
+  handle(proxyServer, event) {
+    const { handleReq, handleRes, handleError } = event;
+
     proxyServer.on('proxyReq', (proxyReq, req, res, options) => {
       if (handleReq) {
         handleReq.call(null, { proxyReq, req, res, options });
