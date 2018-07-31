@@ -12,14 +12,10 @@ class baseProxy {
     if (!option.proxies || !Array.isArray(option.proxies)) {
       throw Error(`${name}: The parameter is required and the type must be Array: proxyArray`);
     }
-    if (option.rewrite && typeof option.rewrite !== 'function') {
-      throw Error(`${name}: the type must be Function: rewrite`);
-    }
     this.options = {
       log: log(process.env.LOG_LEVEL || option.logLevel || 'info'),
       proxyTimeout: option.proxyTimeout || 30000,
       proxies: option.proxies,
-      rewrite: option.rewrite ? () => option.rewrite : pattern => path => path.replace(pattern, ''),
       handleError: option.error,
     };
   }

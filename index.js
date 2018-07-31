@@ -55,15 +55,14 @@ class Proxy extends baseProxy {
   proxy(options) {
     this.checkOut(options);
     const mildArr = [];
-    const { proxies, rewrite, proxyTimeout } = this.options;
+    const { proxies, proxyTimeout } = this.options;
     proxies.forEach(proxy => {
-      const pattern = new RegExp('^/' + proxy.context + '(/|/w+)?');
       mildArr.push(
         this.nginx('/' + proxy.context, {
           target: proxy.host,
           changeOrigin: true,
           xfwd: true,
-          rewrite: proxy.rewrite || rewrite(pattern),
+          rewrite: proxy.rewrite,
           logs: proxy.log || true,
           proxyTimeout: proxy.proxyTimeout || proxyTimeout,
           event: proxy.event,
