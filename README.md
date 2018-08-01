@@ -55,10 +55,6 @@ silly  | 5
 - `proxyTimeout`
 timeout for outgoing proxy requests.unrequired,the values are in millisecond,Number,default 30000
 
-- `rewrite`
-rewrites the url redirects.unrequired,Funtion, default `path.replace(context, '')`
-
-
 - `proxies`
 koa-ngnix important parameter,required,expect get array,Each of the internal objects is a proxy combination, and some of the internal parameters can override globally parameters of the same name.
   * `target` url string to be parsed with the url module
@@ -110,7 +106,7 @@ const Ngnix = Proxy.proxy({
       target: 'http://127.0.0.1:3000',
       context: 'api',
       logs: false,
-      rewrite: path => path.rewrite('api', 'rewriteApi'),
+      rewrite: path => path.replace('api', 'rewriteApi'),
       proxyTimeout: 10000,
     },
     {
