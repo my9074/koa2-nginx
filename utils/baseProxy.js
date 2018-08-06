@@ -20,7 +20,7 @@ class baseProxy {
     };
   }
   // handle event：proxyReq、proxyRes、error
-  handle(proxyServer, event) {
+  handle(proxyServer, event = {}) {
     const { handleReq, handleRes, handleError } = event;
 
     proxyServer.on('proxyReq', (proxyReq, req, res, options) => {

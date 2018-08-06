@@ -48,5 +48,8 @@
     "http-proxy": "^1.16.2",
     "winston": "^2.4.3",
     "moment": "^2.22.2"
+  },
+  "engines": {
+    "node": ">=8.0.0"
   }
 }

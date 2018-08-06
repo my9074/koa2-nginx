@@ -26,9 +26,7 @@ class Proxy extends baseProxy {
           );
         }
 
-        if (options.event && typeof options.event === 'object') {
-          this.handle(proxyServer, options.event);
-        }
+        this.handle(proxyServer, options.event);
 
         proxyServer.web(ctx.req, ctx.res, options, e => {
           const status = {
