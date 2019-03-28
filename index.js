@@ -17,6 +17,16 @@ class Proxy extends baseProxy {
         if (typeof rewrite === 'function') {
           ctx.req.url = rewrite(ctx.url);
         }
+
+        if (ctx.logger && logs) {
+          ctx.logger.info(
+            '[koa2-nginx] [target] %s - proxy - [method] %s [url] %s',
+            target,
+            ctx.req.method,
+            ctx.req.url
+          );
+        }
+
         if (logs) {
           this.options.log.info(
             target,
@@ -33,17 +43,39 @@ class Proxy extends baseProxy {
             ECONNRESET: 502,
             ECONNREFUSED: 503,
             ETIMEOUT: 504,
-          }[ e.code ];
+          }[e.code];
           if (status) ctx.status = status;
 
           if (options.event && options.event.handleError) {
-            options.event.handleError.call(null, { e, req: ctx.req, res: ctx.res });
+            options.event.handleError.call(null, {
+              e,
+              req: ctx.req,
+              res: ctx.res,
+            });
           } else if (this.options.handleError) {
-            this.options.handleError.call(null, { e, req: ctx.req, res: ctx.res });
+            this.options.handleError.call(null, {
+              e,
+              req: ctx.req,
+              res: ctx.res,
+            });
+          }
+
+          if (ctx.logger && logs) {
+            ctx.logger.info(
+              '[koa2-nginx proxyServer.web] [target] %s - proxy - [method] %s [url] %s',
+              target,
+              ctx.req.method,
+              ctx.req.url
+            );
           }
 
           if (logs) {
-            this.options.log.error('- proxy -', ctx.status, ctx.req.method, ctx.req.url);
+            this.options.log.error(
+              '- proxy -',
+              ctx.status,
+              ctx.req.method,
+              ctx.req.url
+            );
           }
           resolve();
         });
