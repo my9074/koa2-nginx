@@ -45,9 +45,9 @@
     "yorkie": "^1.0.3"
   },
   "dependencies": {
-    "http-proxy": "^1.16.2",
-    "winston": "^2.4.3",
-    "moment": "^2.22.2"
+    "http-proxy": "^1.18.0",
+    "moment": "^2.22.2",
+    "winston": "^2.4.3"
   },
   "engines": {
     "node": ">=8.0.0"
