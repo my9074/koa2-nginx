@@ -36,6 +36,7 @@ class baseProxy {
           bodyData = queryString.stringify(req.body);
         }
         if (bodyData) {
+          proxyReq.setHeader('Content-Length', Buffer.byteLength(bodyData));
           proxyReq.write(bodyData);
           proxyReq.end();
         }
