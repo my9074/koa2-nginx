@@ -29,7 +29,7 @@ const Ngnix = Proxy.proxy({
   proxies: [
     {
       host: 'http://localhost:3333/',
-      context: 'ngnix'
+      context: '/user/:id'
     },
   ]
 });
@@ -58,7 +58,7 @@ timeout for outgoing proxy requests.unrequired,the values are in millisecond,Num
 - `proxies`
 koa-ngnix important parameter,required,expect get array,Each of the internal objects is a proxy combination, and some of the internal parameters can override globally parameters of the same name.
   * `target` url string to be parsed with the url module
-  * `context` Local proxy root address,required,string format
+  * `context` Local proxy root address,required,string format or [path match](https://github.com/pillarjs/path-to-regexp)
   * `logs` unrequired，Boolean, default true
   * `rewrite` unrequired，Function
   * `proxyTimeout` unrequired，Number
@@ -104,13 +104,14 @@ const Ngnix = Proxy.proxy({
   proxies: [
     {
       target: 'http://127.0.0.1:3000',
-      context: 'api',
+      context: 'api', // match xxx.xxx.xxx/api or xxx.xxx.xxx/api*
       logs: false,
       rewrite: path => path.replace('api', 'rewriteApi'),
       proxyTimeout: 10000,
     },
     {
-      ...
+      target: 'http://127.0.0.1:3001',
+      context: '/user/:id', // match xxx.xxx.xxx/user/1
     },
   ],
   proxyTimeout: 5000,

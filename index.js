@@ -1,11 +1,16 @@
 const HttpProxy = require('http-proxy');
 const compose = require('koa-compose');
 const baseProxy = require('./utils/baseProxy');
+const route = require('path-match')();
 
 class Proxy extends baseProxy {
   nginx(context, options) {
     return (ctx, next) => {
-      if (!ctx.url.startsWith(context)) {
+      // use path-match if context set like '/post/:id'
+      // use startsWith if context set like 'post'
+      if (/^\//.test(context)) {
+        if (!route(context)(ctx.url)) return next();
+      } else if (!ctx.url.startsWith(`/${context}`)) {
         return next();
       }
 
@@ -88,7 +93,7 @@ class Proxy extends baseProxy {
     const { proxies, proxyTimeout } = this.options;
     proxies.forEach(proxy => {
       mildArr.push(
-        this.nginx('/' + proxy.context, {
+        this.nginx(proxy.context, {
           target: proxy.host,
           changeOrigin: true,
           xfwd: true,

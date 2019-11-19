@@ -1,6 +1,6 @@
 {
   "name": "koa2-nginx",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "This is an http-proxy based egg proxy middleware that can be used after bodyparse",
   "main": "index.js",
   "scripts": {
@@ -47,6 +47,7 @@
   "dependencies": {
     "http-proxy": "^1.18.0",
     "moment": "^2.22.2",
+    "path-match": "^1.2.4",
     "winston": "^2.4.3"
   },
   "engines": {
