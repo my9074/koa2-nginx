@@ -1,12 +1,7 @@
 const HttpProxy = require('http-proxy');
 const compose = require('koa-compose');
 const baseProxy = require('./utils/baseProxy');
-const route = require('path-match')({
-  // path-to-regexp options
-  sensitive: false,
-  strict: false,
-  end: false,
-});
+const route = require('path-match')();
 
 class Proxy extends baseProxy {
   nginx(context, options) {

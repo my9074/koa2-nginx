@@ -58,7 +58,7 @@ timeout for outgoing proxy requests.unrequired,the values are in millisecond,Num
 - `proxies`
 koa-ngnix important parameter,required,expect get array,Each of the internal objects is a proxy combination, and some of the internal parameters can override globally parameters of the same name.
   * `target` url string to be parsed with the url module
-  * `context` Local proxy root address,required,string format or path match
+  * `context` Local proxy root address,required,string format or [path match](https://github.com/pillarjs/path-to-regexp)
   * `logs` unrequired，Boolean, default true
   * `rewrite` unrequired，Function
   * `proxyTimeout` unrequired，Number
