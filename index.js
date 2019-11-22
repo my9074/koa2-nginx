@@ -1,13 +1,9 @@
 const compose = require('koa-compose');
-const { setupProxyFeature, setupMiddlewares } = require('./lib/utils');
+const { setupProxyFeature, setupMiddlewares } = require('./lib');
 
 module.exports = options => {
-  return async function(ctx, next) {
+  const newOptions = setupProxyFeature(options);
+  const middles = setupMiddlewares(newOptions);
 
-    const newOptions = setupProxyFeature(options)
-
-    const middles = setupMiddlewares(newOptions)
-
-    return compose(middles)
-  };
+  return compose(middles);
 };

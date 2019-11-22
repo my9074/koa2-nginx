@@ -1,6 +1,6 @@
 {
   "name": "koa2-nginx",
-  "version": "2.0.0-beta.2",
+  "version": "2.0.0-beta.3",
   "description": "This is an http-proxy koa proxy middleware that can be used after bodyparse",
   "main": "index.js",
   "scripts": {
@@ -9,13 +9,15 @@
   "keywords": [
     "koa",
     "http-proxy",
-    "middleware"
+    "middleware",
+    "webpack-dev-server"
   ],
   "author": "my9074 <313231068@qq.com>",
   "license": "MIT",
   "dependencies": {
-    "http-proxy": "^1.18.0",
-    "path-to-regexp": "^6.0.0"
+    "http-proxy-middleware": "^0.20.0",
+    "koa-compose": "^4.1.0",
+    "koa2-connect": "^1.0.2"
   },
   "devDependencies": {
     "prettier": "1.19.1"
