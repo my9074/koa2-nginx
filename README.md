@@ -1,6 +1,6 @@
 # koa2-nginx
 ![npm](https://img.shields.io/npm/v/koa2-nginx)
-[![Coverage Status](https://coveralls.io/repos/github/my9074/koa2-nginx/badge.svg?branch=next)](https://coveralls.io/github/my9074/koa2-nginx?branch=next)
+[![Coverage Status](https://coveralls.io/repos/github/my9074/koa2-nginx/badge.svg?branch=master)](https://coveralls.io/github/my9074/koa2-nginx?branch=master)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 [![dependency Status](https://img.shields.io/david/my9074/koa2-nginx.svg?style=flat-square)](https://david-dm.org/my9074/koa2-nginx#info=dependencies)
 [![Known Vulnerabilities](https://snyk.io/test/github/my9074/koa2-nginx/badge.svg?targetFile=package.json)](https://snyk.io/test/github/my9074/koa2-nginx?targetFile=package.json)
@@ -28,6 +28,12 @@ app.listen(3000);
 _All_ `http-proxy-middleware` [options](https://github.com/chimurai/http-proxy-middleware#options) can be used.
 
 **Tip:** Set the option `changeOrigin` to `true` for [name-based virtual hosted sites](http://en.wikipedia.org/wiki/Virtual_hosting#Name-based).
+
+## Breaking with `koa2-nginx@1.x`
+
+* V2.x version is a fully refactored version
+* V1.x version is based on [http-proxy](https://github.com/http-party/node-http-proxy), and the v2 version provides more rich and reasonable configuration based on [http-proxy-middleware](https://github.com/chimurai/http-proxy-middleware).
+* The logic for internally processing `context-length` is ***removed***, and we think this should be handled by the developer itself in the [events](https://github.com/chimurai/http-proxy-middleware#http-proxy-events) hooks.
 
 ## Table of Contents
 
@@ -59,7 +65,7 @@ const proxy = require('koa2-nginx');
 const options = {
   '/api': {
     target: 'http://www.example.com', 
-    changeOrigin: true
+    changeOrigin: true,
   },
   '**/*.html': {
     target: 'http://www.example2.com', 
@@ -92,6 +98,13 @@ let option = {
   '/api': {
     target: 'http://www.example.com', 
     changeOrigin: true,
+    onProxyRes(proxyRes, req, res) {
+      proxyRes.headers['x-added'] = 'foobar'; // add new header to response
+      delete proxyRes.headers['x-removed'];
+    },
+    onProxyReq(proxyReq, req, res) {
+      proxyReq.setHeader('x-added', 'foobar');
+    }
   }
 }
 ```
