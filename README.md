@@ -1,4 +1,6 @@
 # koa2-nginx
+![npm](https://img.shields.io/npm/v/koa2-nginx)
+[![Coverage Status](https://coveralls.io/repos/github/my9074/koa2-nginx/badge.svg?branch=next)](https://coveralls.io/github/my9074/koa2-nginx?branch=next)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 [![dependency Status](https://img.shields.io/david/my9074/koa2-nginx.svg?style=flat-square)](https://david-dm.org/my9074/koa2-nginx#info=dependencies)
 [![Known Vulnerabilities](https://snyk.io/test/github/my9074/koa2-nginx/badge.svg?targetFile=package.json)](https://snyk.io/test/github/my9074/koa2-nginx?targetFile=package.json)

@@ -1,0 +1,12 @@
+sudo: false
+language: node_js
+node_js:
+  - "6"
+  - "8"
+  - "10"
+script:
+  - npm run coverage
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
+matrix:
+  fast_finish: true
