@@ -4,7 +4,8 @@
   "description": "This is an http-proxy koa proxy middleware that can be used after bodyparse",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha test/*.js",
+    "coverage": "nyc --reporter=text --reporter=lcov npm run test",
     "lint": "eslint lib index.js -c .eslintrc.js --ext js"
   },
   "keywords": [
@@ -30,6 +31,9 @@
     "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
+    "expect.js": "^0.3.1",
+    "mocha": "^6.2.2",
+    "nyc": "^14.1.1",
     "prettier": "^1.19.1"
   },
   "config": {
