@@ -43,6 +43,7 @@ _All_ `http-proxy-middleware` [options](https://github.com/chimurai/http-proxy-m
 - [Options](#options)
 - [Usage](#usage)
 - [Working examples](#working-examples)
+- [FAQ](#faq)
 
 <!-- /MarkdownTOC -->
 
@@ -136,3 +137,6 @@ let option = [{
 ## Working examples
 
 - [EggJS]() TODO
+
+## FAQ
+1. POST/PUT request body is not proxied to the servers [#40](https://github.com/chimurai/http-proxy-middleware/issues/40#issuecomment-163398924)
