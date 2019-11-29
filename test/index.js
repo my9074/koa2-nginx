@@ -1,5 +1,9 @@
 const expect = require('expect.js');
-const { setupProxyFeature, setupMiddlewares } = require('../lib');
+const {
+  setupProxyFeature,
+  setupMiddlewares,
+  wraperProxyReqHandler
+} = require('../lib');
 
 describe('utils', function() {
   describe('setupProxyFeature', function() {
@@ -69,7 +73,63 @@ describe('utils', function() {
       ];
 
       const middles = setupMiddlewares(opt);
-      expect(middles).to.have.length(1);
+      expect(middles).to.have.length(1 + 1);
+    });
+
+    it('option has autoProcessReqBody field', function() {
+      const opt = [
+        {
+          context: '/api',
+          target: 'http://www.example.com',
+          autoProcessReqBody: true,
+          onProxyReq(proxyRes, req, res) {
+            // test
+          }
+        }
+      ];
+      setupMiddlewares(opt);
+    });
+  });
+
+  describe('wraperProxyReqHandler', function() {
+    it('when context-type is application/json', function() {
+      const onProxyReq = function(proxyReq, req, res, options) {};
+      const arg1 = {
+        getHeader: args => {
+          return 'application/json';
+        },
+        setHeader: (key, value) => {},
+        write: args => {},
+        end: () => {}
+      };
+      const arg2 = {
+        koaReq: {
+          body: { a: 1 }
+        }
+      };
+      const arg3 = {};
+
+      wraperProxyReqHandler(onProxyReq)(arg1, arg2, arg3);
+    });
+
+    it('when context-type is application/x-www-form-urlencoded', function() {
+      const onProxyReq = function(proxyReq, req, res, options) {};
+      const arg1 = {
+        getHeader: args => {
+          return 'application/x-www-form-urlencoded';
+        },
+        setHeader: (key, value) => {},
+        write: args => {},
+        end: () => {}
+      };
+      const arg2 = {
+        koaReq: {
+          body: 'a=1'
+        }
+      };
+      const arg3 = {};
+
+      wraperProxyReqHandler(onProxyReq)(arg1, arg2, arg3);
     });
   });
 });
