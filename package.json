@@ -6,7 +6,8 @@
   "scripts": {
     "test": "mocha test/*.js",
     "coverage": "nyc --reporter=text --reporter=lcov npm run test",
-    "lint": "eslint lib index.js -c .eslintrc.js --ext js"
+    "lint": "eslint lib index.js -c .eslintrc.js --ext js",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0"
   },
   "keywords": [
     "koa",
