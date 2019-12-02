@@ -1,6 +1,6 @@
 {
   "name": "koa2-nginx",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "This is an http-proxy koa proxy middleware that can be used after bodyparse",
   "main": "index.js",
   "scripts": {
