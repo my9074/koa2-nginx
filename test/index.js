@@ -104,7 +104,10 @@ describe('utils', function() {
       };
       const arg2 = {
         koaReq: {
-          body: { a: 1 }
+          body: {
+            a: 1
+          },
+          rawBody: '{\n    "a": 1\n}'
         }
       };
       const arg3 = {};
@@ -124,7 +127,8 @@ describe('utils', function() {
       };
       const arg2 = {
         koaReq: {
-          body: 'a=1'
+          body: 'a=1',
+          rawBody: 'a=1'
         }
       };
       const arg3 = {};
