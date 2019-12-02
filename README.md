@@ -86,7 +86,17 @@ app.listen(3000);
 
 ## Options
 
+### koa2-nginx options
+
+- **autoProcessReqBody**: If **koa2-nginx** is behind the **body-parser**, it may cause the request body to fail to proxy. Set `autoProcessReqBody` to **true** can proxy the request body in `json` and `form` content-type.
+
+### http-proxy-middleware options
+
 Can refer option to [http-proxy-middleware](https://github.com/chimurai/http-proxy-middleware#options) for each forwarding rule.
+
+### http-proxy options
+
+Can refer option to [http-proxy](https://github.com/http-party/node-http-proxy#options) for each forwarding rule.
 
 ## Usage
 
@@ -139,4 +149,4 @@ let option = [{
 - [EggJS]() TODO
 
 ## FAQ
-1. POST/PUT request body is not proxied to the servers [#40](https://github.com/chimurai/http-proxy-middleware/issues/40#issuecomment-163398924)
+1. POST/PUT request body is not proxied to the servers [#40](https://github.com/chimurai/http-proxy-middleware/issues/40#issuecomment-163398924) or set `autoProcessReqBody` to `true`
