@@ -7,7 +7,9 @@
     "test": "mocha test/*.js",
     "coverage": "nyc --reporter=text --reporter=lcov npm run test",
     "lint": "eslint lib index.js -c .eslintrc.js --ext js",
-    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0"
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "keywords": [
     "koa",
@@ -21,7 +23,8 @@
     "http-proxy-middleware": "^0.20.0",
     "koa-compose": "^4.1.0",
     "koa2-connect": "^1.0.2",
-    "querystring": "^0.2.0"
+    "querystring": "^0.2.0",
+    "snyk": "^1.316.1"
   },
   "devDependencies": {
     "codecov": "^3.6.1",
@@ -46,5 +49,6 @@
   },
   "engines": {
     "node": ">=8.0.0"
-  }
+  },
+  "snyk": true
 }
